@@ -1,8 +1,8 @@
 import React from 'react';
 
-const LoginInput = () => {
+const LoginInput = ({placeHolder, icon, inputState, inputStateFunc, type, isSignUp}) => {
   return (
-    <div>LoginInput</div>
+    <div className={'flex items-center justify-center gap-4 bg-lightOverlay'}></div>
   );
 };
 
