@@ -8,6 +8,7 @@ import { buttonClcik } from '../animations';
 
 import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {app} from "../config/firebase.config"
+import { validateUserJWTToken } from '../api';
 
 
 const Login = () => {
@@ -28,12 +29,17 @@ const Login = () => {
         firebaseAuth.onAuthStateChanged(cred => {
           if(cred){
             cred.getIdToken().then(token => {
-              console.log(token);
-            })
+              validateUserJWTToken(token).then(data => {
+
+                console.log(data);
+
+              });
+              
+            });
 
           }
-        })
-      })
+        });
+      });
       
     };
 
