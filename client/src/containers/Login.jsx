@@ -5,6 +5,8 @@ import { LoginInput } from '../components';
 import {FaEnvelope, FaLock, FcGoogle} from "../assets/icons"
 import { motion } from "framer-motion";
 import { buttonClcik } from '../animations';
+import { useNavigate } from "react-router-dom";
+
 
 import {
   getAuth,
@@ -28,6 +30,8 @@ const Login = () => {
     const firebaseAuth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
+    const navigate = useNavigate();
+
 
     const loginWithGoogle = async () =>{
 
@@ -43,20 +47,67 @@ const Login = () => {
               
             });
 
+            navigate("/", { replace: true });
+
           }
         });
       });
       
     };
 
-    const signUpWithEmailPass = () => {
-
-      if (!userEmail || !password || !confirm_password) {
-        console.log("Fields are empty");
+    const signUpWithEmailPass = async () => {
+      if (userEmail === "" || password === "" || confirm_password === "") {
+        // Handle empty fields
+      } else {
+        if (password === confirm_password) {
+          setUserEmail("");
+          setConfirm_password("");
+          setPassword("");
+  
+          const userCred = await createUserWithEmailAndPassword(firebaseAuth, userEmail, password);
+  
+          firebaseAuth.onAuthStateChanged((cred) => {
+            if (cred) {
+              cred.getIdToken().then((token) => {
+                validateUserJWTToken(token).then((data) => {
+                  console.log(data);
+                  // dispatch(setUserDetails(data));
+                });
+                navigate("/", { replace: true });
+              });
+            }
+          });
+        } else {
+          // Handle password mismatch
+        }
       }
-
-
     };
+
+    const signInWithEmailPass = async () => {
+      if (userEmail !== "" && password !== "") {
+        await signInWithEmailAndPassword(firebaseAuth, userEmail, password).then(
+          (userCred) => {
+            firebaseAuth.onAuthStateChanged((cred) => {
+              if (cred) {
+                cred.getIdToken().then((token) => {
+                  validateUserJWTToken(token).then((data) => {
+                    console.log(data);
+                    //dispatch(setUserDetails(data));
+                  });
+                  navigate("/", { replace: true });
+                });
+              }
+            });
+          }
+        );
+      } else {
+        //dispatch(alertWarning("Password doesn't match"));
+      }
+    };
+
+
+
+    
 
     
   return (
