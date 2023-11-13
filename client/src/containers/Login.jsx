@@ -6,7 +6,13 @@ import {FaEnvelope, FaLock, FcGoogle} from "../assets/icons"
 import { motion } from "framer-motion";
 import { buttonClcik } from '../animations';
 
-import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {app} from "../config/firebase.config"
 import { validateUserJWTToken } from '../api';
 
@@ -41,6 +47,15 @@ const Login = () => {
         });
       });
       
+    };
+
+    const signUpWithEmailPass = () => {
+
+      if (!userEmail || !password || !confirm_password) {
+        console.log("Fields are empty");
+      }
+
+
     };
 
     
@@ -130,14 +145,14 @@ const Login = () => {
             <motion.button
               {...buttonClcik}
               className="w-full px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-500 transition-all duration-150"
-              
+              onClick={signUpWithEmailPass}
             >
               Sign Up
             </motion.button>
           ) : (
             <motion.button
               {...buttonClcik}
-              
+              onClick={signInWithEmailPass}
               className="w-full px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-500 transition-all duration-150"
             >
               Log in
