@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LoginBg } from '../assets';
 import { Logo } from '../assets';
 import { LoginInput } from '../components';
-import {FaEnvelope, FaLock} from "../assets/icons"
+import {FaEnvelope, FaLock, FcGoogle} from "../assets/icons"
 import { motion } from "framer-motion";
 import { buttonClcik } from '../animations';
 
@@ -28,13 +28,13 @@ const Login = () => {
       <div className="flex flex-col items-center bg-lightOverlay w-[80%] md:w-508 h-full z-10 backdrop-blur-md p-4 px-4 py-12 gap-6">
       {/* Top logo section */}
         <div className="flex items-center justify-start gap-4 w-full">
-          <img src={Logo} className="w-8" alt="" />
-          <p className="text-headingColor font-semibold text-2xl">City</p>
+          <img src={Logo} className="w-20" alt="" />
+          <p className="text-headingColor font-semibold text-2xl">Food-Spark</p>
       </div> 
       {/* welcome text */}
       <p className="text-3xl font-semibold text-headingColor">Welcome Back</p>
       <p className="text-xl text-textColor -mt-6">
-        {isSignUp ? "Sign Up" : "Sign In"} with following
+        {isSignUp ? "Sign Up" : "Login In"} with following
       </p>
       {/* input section */}
 
@@ -76,7 +76,7 @@ const Login = () => {
               className="text-blue-600 underline cursor-pointer bg-transparent"
               onClick={() => setIsSignUp(true)}
               >
-                Create one
+                Create new account
               </motion.button>
 
             </p>
@@ -88,20 +88,52 @@ const Login = () => {
                 className="text-blue-600 underline cursor-pointer bg-transparent"
                 onClick={() => setIsSignUp(false)}
               >
-                Sign-in here
+                Log-in here
               </motion.button>
             </p>
           )
 
           }
+          
+          {/* button section */}
+          {isSignUp ? (
+            <motion.button
+              {...buttonClcik}
+              className="w-full px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-500 transition-all duration-150"
+              
+            >
+              Sign Up
+            </motion.button>
+          ) : (
+            <motion.button
+              {...buttonClcik}
+              
+              className="w-full px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-500 transition-all duration-150"
+            >
+              Log in
+            </motion.button>
+          )}
         
       </div>
-
-    
-      
-      
+        <div className="flex items-center justify-between gap-16">
+          <div className="w-24 h-[1px] rounded-md bg-white"></div>
+          <p className="text-white">or</p>
+          <div className="w-24 h-[1px] rounded-md bg-white"></div>
+        </div>
+        
+        <motion.div
+          {...buttonClcik}
+          className="flex items-center justify-center px-20 py-2 bg-lightOverlay backdrop-blur-md cursor-pointer rounded-3xl gap-4"
+         
+        >
+          <FcGoogle className="text-3xl" />
+          <p className="capitalize text-base text-headingColor">
+            Signin with Google
+          </p>
+        </motion.div>
       </div>
-      
+        
+            
        
 
 
