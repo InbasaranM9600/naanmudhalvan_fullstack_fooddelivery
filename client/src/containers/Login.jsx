@@ -8,6 +8,7 @@ import { buttonClcik } from '../animations';
 import { useNavigate } from "react-router-dom";
 
 
+
 import {
   getAuth,
   signInWithPopup,
@@ -17,6 +18,8 @@ import {
 } from "firebase/auth";
 import {app} from "../config/firebase.config"
 import { validateUserJWTToken } from '../api';
+import { setUserDetails } from '../context/actions/userActions';
+import { useDispatch } from 'react-redux';
 
 
 const Login = () => {
@@ -31,6 +34,7 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
 
     const loginWithGoogle = async () =>{
@@ -42,6 +46,7 @@ const Login = () => {
               validateUserJWTToken(token).then(data => {
 
                 console.log(data);
+                dispatch(setUserDetails(data));
 
               });
               
