@@ -5,7 +5,7 @@ import { LoginInput } from '../components';
 import {FaEnvelope, FaLock, FcGoogle} from "../assets/icons"
 import { motion } from "framer-motion";
 import { buttonClcik } from '../animations';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 
@@ -16,10 +16,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
 import {app} from "../config/firebase.config"
 import { validateUserJWTToken } from '../api';
 import { setUserDetails } from '../context/actions/userActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 
 const Login = () => {
@@ -36,6 +38,14 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const user = useSelector(state => state.user);
+
+    useEffect(() => {
+      if(user){
+        Navigate("/", { replace : true});
+      }
+    }, [user]);
+
 
     const loginWithGoogle = async () =>{
 
@@ -45,7 +55,7 @@ const Login = () => {
             cred.getIdToken().then(token => {
               validateUserJWTToken(token).then(data => {
 
-                console.log(data);
+                //console.log(data);
                 dispatch(setUserDetails(data));
 
               });
@@ -75,8 +85,8 @@ const Login = () => {
             if (cred) {
               cred.getIdToken().then((token) => {
                 validateUserJWTToken(token).then((data) => {
-                  console.log(data);
-                  // dispatch(setUserDetails(data));
+                  //console.log(data);
+                  dispatch(setUserDetails(data));
                 });
                 navigate("/", { replace: true });
               });
@@ -96,8 +106,8 @@ const Login = () => {
               if (cred) {
                 cred.getIdToken().then((token) => {
                   validateUserJWTToken(token).then((data) => {
-                    console.log(data);
-                    //dispatch(setUserDetails(data));
+                    //console.log(data);
+                    dispatch(setUserDetails(data));
                   });
                   navigate("/", { replace: true });
                 });
