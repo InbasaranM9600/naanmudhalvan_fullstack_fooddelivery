@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from "./context/actions/userActions";
 import { motion } from "framer-motion";
 import { fadeInOut } from "./animations";
+import { Alert, MainLoader } from "./components";
 
 const App = () => {
 
@@ -42,13 +43,15 @@ const App = () => {
     <div className="w-screen min-h-screen h-auto flex flex-col items-center justify-center">
       {isLoading && (
         <motion.div {...fadeInOut} className="fixed z-50 inset-0 bg-lightOverlay backdrop-blur-md flex items-center justify-center w-full">
-          loading...
+        <MainLoader />
         </motion.div>
       )}
       <Routes>
         <Route path="/*" element={<Main />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+
+      <Alert type={"warning"} message={"Vanakam di mapla"}/>
     </div>
   );
 };
